@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/master :: headelement}">
+
+</head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{layouts/master :: navelement}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{layouts/master :: sidebarelement}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Edit Transaction</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="/">Transactions</a></li>
+                    <li class="breadcrumb-item active">Edit Transaction</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="col-sm-8">
+                            <form th:action="@{'/transactions/edit/' + ${transaction.id}}" th:object="${transaction}" method="post">
+                                <!-- Amount Field -->
+                                <div class="form-group mb-3">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" id="amount" th:field="*{amount}" class="form-control"  />
+                                    <div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="text-danger"></div>
+                                </div>
+
+                                <!-- Date Field -->
+                                <div class="form-group mb-3">
+                                    <label for="date">Date</label>
+                                    <input type="date" id="date" th:field="*{date}" class="form-control" />
+                                    <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="text-danger"></div>
+                                </div>
+
+                                <!-- Description Field -->
+                                <div class="form-group mb-3">
+                                    <label for="description">Description</label>
+                                    <input type="text" id="description" th:field="*{description}" class="form-control"   />
+                                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></div>
+                                </div>
+
+                                <!-- Transaction Type Field -->
+                                <div class="form-group mb-3">
+                                    <label for="transactionType">Transaction Type</label>
+                                    <select id="transactionType" th:field="*{transactionType}" class="form-control">
+                                        <option th:value="'INCOME'" th:text="'Income'"
+                                                th:checked="${transaction.transactionType == 'INCOME'}">Income</option>
+                                        <option th:value="'EXPENSE'" th:text="'Expense'"
+                                                th:checked="${transaction.transactionType == 'EXPENSE'}">Expense</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('transactionType')}" th:errors="*{transactionType}" class="text-danger"></div>
+                                </div>
+
+                                <!-- Category Field -->
+                                <div class="form-group mb-3">
+                                    <label for="category">Category</label>
+                                    <select id="category" th:field="*{category}" class="form-control" required>
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}">Select Category</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger"></div>
+                                </div>
+
+
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-primary">Update Transaction</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{layouts/master :: footerelement}"></footer>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="/js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="/js/datatables-simple-demo.js"></script>
+</body>
+</html>

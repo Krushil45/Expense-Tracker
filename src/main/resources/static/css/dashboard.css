@@ -1,0 +1,232 @@
+.transaction-details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+
+    }
+
+    /* Styling for Each Expense Item */
+    .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #004085; /* Slightly darker grey for item separation */
+        border-radius: 6px; /* Smooth, rounded corners */
+
+    }
+
+    /* Expense Item Hover Effect */
+    .transaction-item:hover {
+        background-color: #004085; /* Slightly darker grey on hover */
+    }
+
+    /* Label Styling */
+    .transaction-item .label {
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+    }
+
+    /* Value Styling */
+    .transaction-item .value {
+        font-weight: bold;
+        font-size: 16px;
+        color: white
+    }
+
+    /* Responsive adjustments for expense details */
+    @media (max-width: 768px) {
+        .transaction-details {
+            padding: 10px;
+        }
+
+        .transaction-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+    }
+
+      /* Styling for Expense Details Section */
+
+
+
+    .income-details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+
+    }
+
+    /* Styling for Each Expense Item */
+    .income-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #155724; /* Slightly darker grey for item separation */
+        border-radius: 6px; /* Smooth, rounded corners */
+
+    }
+
+    /* Expense Item Hover Effect */
+    .income-item:hover {
+        background-color: #155724; /* Slightly darker grey on hover */
+    }
+
+    /* Label Styling */
+    .income-item .label {
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+    }
+
+    /* Value Styling */
+    .income-item .value {
+        font-weight: bold;
+        font-size: 16px;
+        color: white
+    }
+
+    /* Responsive adjustments for expense details */
+    @media (max-width: 768px) {
+        .income-details {
+            padding: 10px;
+        }
+
+        .income-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+    }
+    /* Styling for Expense Details Section */
+    .expense-details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+
+    }
+
+    /* Styling for Each Expense Item */
+    .expense-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #856404; /* Slightly darker grey for item separation */
+        border-radius: 6px; /* Smooth, rounded corners */
+
+    }
+
+    /* Expense Item Hover Effect */
+    .expense-item:hover {
+        background-color: #856404; /* Slightly darker grey on hover */
+    }
+
+    /* Label Styling */
+    .expense-item .label {
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+    }
+
+    /* Value Styling */
+    .expense-item .value {
+        font-weight: bold;
+        font-size: 16px;
+        color: white
+    }
+
+    /* Responsive adjustments for expense details */
+    @media (max-width: 768px) {
+        .expense-details {
+            padding: 10px;
+        }
+
+        .expense-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+    }
+
+          /* Custom Styles for Cards */
+          .card {
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              margin-bottom: 20px;
+              display: flex;
+              flex-direction: column;
+              height: 100%; /* Ensures that the cards are of equal height */
+          }
+
+          .card-body {
+              padding: 20px;
+              flex-grow: 1; /* Ensures the content inside the card takes available space */
+          }
+
+          /* Card Title Styling */
+          .card-header {
+              background-color: #343a40; /* Dark background for the heading */
+              color: #fff; /* White text for heading */
+              padding: 10px;
+              font-weight: bold;
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
+          }
+
+          /* Lighter Background Colors for the Cards */
+          .card-expenses {
+              background-color: #fff3cd; /* Light Yellow */
+              color: #856404; /* Dark Yellow Text */
+          }
+
+          .card-income {
+              background-color: #d4edda; /* Light Green */
+              color: #155724; /* Dark Green Text */
+          }
+
+          .card-transactions {
+              background-color: #cce5ff; /* Light Blue */
+              color: #004085; /* Dark Blue Text */
+          }
+
+          /* Heading styles */
+          .card-body h4 {
+              font-weight: bold;
+              font-size: 20px;
+              color: inherit;
+              margin-bottom: 10px;
+          }
+
+          /* Customize text color for the values */
+          .card-body p {
+              font-size: 18px;
+              font-weight: normal;
+          }
+
+          /* Ensure all cards are equal height */
+          .row {
+              display: flex;
+              justify-content: space-between;
+              flex-wrap: wrap;
+          }
+
+          .col-xl-4,
+          .col-md-6 {
+              flex: 1 1 30%;
+              margin-bottom: 20px;
+          }
+
+          /* Adjustments for responsiveness */
+          @media (max-width: 768px) {
+              .col-xl-4,
+              .col-md-6 {
+                  flex: 1 1 100%; /* Stacks them on smaller screens */
+              }
+          }

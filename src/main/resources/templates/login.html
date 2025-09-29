@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #333;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .user-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #1a74e4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .auth-subtitle {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 24px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 8px 16px;
+            text-align: center;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .auth-tab.active {
+            border-bottom: 2px solid #1a74e4;
+            color: #1a74e4;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1a74e4;
+            box-shadow: 0 0 0 2px rgba(26, 116, 228, 0.2);
+        }
+
+        .form-input.error {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            font-size: 0.875rem;
+            color: #1a74e4;
+            margin-top: 4px;
+        }
+
+        .submit-button {
+            width: 100%;
+            background-color: #1a74e4;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #0d5bbd;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            min-width: 250px;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+
+        .toast::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>') no-repeat center;
+        }
+
+        .toast.success::before {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>') no-repeat center;
+        }
+
+        .toast.error::before {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>') no-repeat center;
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                display: block;
+            }
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="main">
+            <header class="header">
+                <h1 class="header-title">Expense Tracker</h1>
+                <div class="user-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+            </header>
+
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="auth-header">
+                        <h2 class="auth-title">Welcome to Expense Tracker</h2>
+                        <p class="auth-subtitle">Track your expenses efficiently</p>
+                    </div>
+                    
+                    <div class="auth-tabs">
+                        <button id="login-tab" class="auth-tab active">Login</button>
+                        <button id="signup-tab" class="auth-tab">Sign Up</button>
+                    </div>
+                    
+                    <div id="login-form" class="auth-form active">
+                        <form id="login-form-element">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                                <span class="error-message" id="email-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                                <span class="error-message" id="password-error"></span>
+                                <a href="#" class="forgot-password">Forgot password?</a>
+                            </div>
+                            <button type="submit" class="submit-button">Login</button>
+                            
+                        </form>
+                    </div>
+                    
+                    <div id="signup-form" class="auth-form">
+                        <form id="signup-form-element">
+                            <div class="form-group">
+                                <label for="fullname" class="form-label">Full Name</label>
+                                <input type="text" id="fullname" class="form-input" placeholder="John Doe" required>
+                                <span class="error-message" id="fullname-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-email" class="form-label">Email</label>
+                                <input type="email" id="signup-email" class="form-input" placeholder="your@email.com" required>
+                                <span class="error-message" id="signup-email-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-password" class="form-label">Password</label>
+                                <input type="password" id="signup-password" class="form-input" placeholder="••••••••" required>
+                                <span class="error-message" id="signup-password-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password" class="form-label">Confirm Password</label>
+                                <input type="password" id="confirm-password" class="form-input" placeholder="••••••••" required>
+                                <span class="error-message" id="confirm-password-error"></span>
+                            </div>
+                            <button type="submit" class="submit-button">Create Account</button>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="js/user.js"></script>
+  
+</body>
+</html>

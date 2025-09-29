@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layouts/master :: headelement}">
+
+</head>
+<body class="sb-nav-fixed">
+<nav  th:replace="~{layouts/master :: navelement}">
+
+</nav>
+<div id="layoutSidenav">
+  <div  th:replace="~{layouts/master :: sidebarelement}">
+
+  </div>
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4">
+        <h1 class="mt-4">Transactions</h1>
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="/transactions">Transactions</a></li>
+          <li class="breadcrumb-item active">Transactions List</li>
+        </ol>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div th:if="${successMessage}" class="alert alert-success">
+              <span th:text="${successMessage}"></span>
+            </div>
+            <form th:action="@{/transactions}" method="get" class="row g-3 mb-4">
+              <div class="col-md-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description" name="description" th:value="${description}">
+              </div>
+
+              <div class="col-md-2">
+                <label for="amountFilter" class="form-label">Amount Filter</label>
+                <select class="form-select" id="amountFilter" name="amountFilter">
+                  <option value="=" th:selected="${amountFilter == '='}">=</option>
+                  <option value="<=" th:selected="${amountFilter == '<='}"><=</option>
+                  <option value=">=" th:selected="${amountFilter == '>='}">>=</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" th:value="${amount}">
+              </div>
+
+              <div class="col-md-2">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="startDate" name="startDate" th:value="${startDate}">
+              </div>
+
+              <div class="col-md-2">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="endDate" name="endDate" th:value="${endDate}">
+              </div>
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a th:href="@{/transactions}" class="btn btn-secondary">Reset</a>
+              </div>
+            </form>
+            <table class="table table-bordered" id="datatablesSimple">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Transaction Type</th>
+                <th>Category</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="transaction : ${transactions.content}">
+                <td th:text="${transaction.id}">1</td>
+                <td th:text="${transaction.description}">Sample Description</td>
+                <td th:text="${transaction.amount}">$100</td>
+                <td th:text="${transaction.date}">2023-11-01</td>
+                <td th:text="${transaction.transactionType}">2023-11-01</td>
+                <td th:text="${transaction.category.name}"></td>
+                <td>
+                  <a href="javascript:void(0)" class="btn btn-info btn-sm view-transaction" th:data-id="${transaction.id}">View</a>
+                  <a th:href="@{'/transactions/edit/' + ${transaction.id}}" class="btn btn-warning btn-sm">Edit</a>
+                          <a href="#" class="btn btn-danger btn-sm"
+   th:onclick="'deleteTransaction(' + ${transaction.id} + '); return false;'">
+   Delete
+</a>
+
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <!-- Previous Button -->
+                <li class="page-item" th:classappend="${transactions.first} ? 'disabled'">
+                  <a class="page-link" th:href="@{'/transactions?page=' + (${transactions.number - 1}) + '&size=' + ${transactions.size}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+
+                <!-- Page Number Buttons -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, transactions.totalPages - 1)}"
+                    th:classappend="${i == transactions.number} ? 'active'">
+                  <a class="page-link" th:href="@{'/transactions?page=' + ${i} + '&size=' + ${transactions.size}}" th:text="${i + 1}">1</a>
+                </li>
+
+                <!-- Next Button -->
+                <li class="page-item" th:classappend="${transactions.last} ? 'disabled'">
+                  <a class="page-link" th:href="@{'/transactions?page=' + (${transactions.number + 1}) + '&size=' + ${transactions.size}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+    <footer  th:replace="~{layouts/master :: footerelement}">
+
+    </footer>
+
+    <!-- Transaction Details Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>ID:</strong> <span id="transactionId"></span></p>
+            <p><strong>Description:</strong> <span id="transactionDescription"></span></p>
+            <p><strong>Amount:</strong> <span id="transactionAmount"></span></p>
+            <p><strong>Date:</strong> <span id="transactionDate"></span></p>
+            <p><strong>Transaction Type :</strong> <span id="transactionType"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+   // Event handler for the "View" button
+   $('.view-transaction').on('click', function () {
+     // Get the transaction ID from the data-id attribute
+     var transactionId = $(this).data('id');
+
+     // Perform AJAX request to fetch transaction details
+     $.ajax({
+       url: '/transactions/view/' + transactionId, // URL with the correct ID
+       method: 'GET',
+       success: function (data) {
+         // Populate modal fields with transaction data
+         $('#transactionId').text(data.id);
+         $('#transactionDescription').text(data.description);
+         $('#transactionAmount').text(data.amount);
+         $('#transactionDate').text(data.date);
+          $('#transactionType').text(data.transactionType);
+
+         // Show the modal
+         $('#transactionModal').modal('show');
+       },
+       error: function () {
+         console.error('Error fetching transaction details');
+       }
+     });
+   });
+ });
+ 
+  function deleteTransaction(transactionId) {
+      if (confirm("Are you sure you want to delete this transaction?")) {
+          fetch('/transactions/delete/' + transactionId, { // Corrected endpoint
+              method: 'DELETE'
+          })
+          .then(response => {
+              if (response.ok) {
+                  alert("Transaction deleted successfully.");
+                  window.location.reload(); // Reload page after deletion
+              } else {
+                  alert("Failed to delete transaction.");
+              }
+          })
+          .catch(error => console.error("Error:", error));
+      }
+  }
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
