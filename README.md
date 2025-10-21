@@ -8,6 +8,7 @@ A smart and intuitive platform to manage your daily income, expenses, and financ
 ### 🚀 Overview
 
 Expense Tracker is a full-stack web application designed to help users efficiently manage and monitor their financial transactions.
+
 It allows users to:
 
 💵 Record income and expenses
@@ -23,6 +24,7 @@ It allows users to:
 ### 🏠 Home Page Preview
 
 <details> <summary><strong>📘 Key Features</strong> (click to expand)</summary>
+
 💡 Core Functionalities
 
 ➕ Add Transactions – Easily log your income and expenses
@@ -42,13 +44,6 @@ It allows users to:
 --
 
 ### ⚙️ Tech Stack
-Layer	Technologies Used
-🖼️ Frontend	
-⚙️ Backend	
-🛢️ Database	MySQL
-🔐 Tools	Maven, Git, GitHub, IntelliJ IDEA / Eclipse
-
-### ⚙️ Tech Stack
 
 | Layer         | Technologies Used                                  |
 |---------------|----------------------------------------------------|
@@ -59,6 +54,7 @@ Layer	Technologies Used
 
 ---
 <details> <summary><strong>📥 Installation Guide</strong> (click to expand)</summary>
+
 🧰 Prerequisites
 
 ☕ Java 11 or higher
@@ -73,11 +69,13 @@ Layer	Technologies Used
 ### 🔧 Steps to Run the Project
 
 1️⃣ Clone the Repository
+
 git clone https://github.com/richard9004/Expense-Tracker.git
 cd Expense-Tracker
 
 
 2️⃣ Configure the Database
+
 Edit application.properties file:
 
 spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker
@@ -87,10 +85,12 @@ spring.jpa.hibernate.ddl-auto=update
 
 
 3️⃣ Build the Project
+
 mvn clean install
 
 
 4️⃣ Run the Application
+
 mvn spring-boot:run
 
 
